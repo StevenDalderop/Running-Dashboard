@@ -1,0 +1,8 @@
+*.pyc 
+node_modules/
+credentials/
+venv/
+__pycache__/
+data/
+*.sqlite3
+.vscode/

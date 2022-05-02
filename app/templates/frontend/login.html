@@ -1,0 +1,12 @@
+{% extends "frontend/base.html" %}
+
+{% block extra_js %}
+	<script type="text/javascript">
+		var context = {
+			message: '{{message}}',
+		};
+	</script>
+	{% load static %}
+	<script type="text/javascript" src="{% static 'app/login.js' %}"></script> 
+{% endblock %}
+
