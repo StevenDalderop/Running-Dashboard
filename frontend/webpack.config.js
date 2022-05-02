@@ -7,7 +7,7 @@ module.exports = {
 	  login: path.join(__dirname, 'src/containers/login'), 
   },
   output: {
-    path: path.join(__dirname, 'static/app'),
+    path: path.join(path.dirname(__dirname), '/app/static/app'),
 	  publicPath: "/static/",
     filename: '[name].js'
   },

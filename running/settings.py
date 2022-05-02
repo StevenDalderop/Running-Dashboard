@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from credentials.secret import secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,40 +22,30 @@ USB_DIR = "D:\\GARMIN\\ACTIVITY"
 CSV_DIR = BASE_DIR / 'data' / 'activity_csv'
 FIT_DIR = BASE_DIR / 'data' / 'activity_fit'
 
-FIT_CSV_TOOL = os.path.join(BASE_DIR, "cmd_tool\\FitCSVTool.jar")
-MATCHES = os.path.join(BASE_DIR, "data\\Hardlooptijden.csv")
-SCHEDULE = os.path.join(BASE_DIR, "data\\Hardloopschema.csv")
+FIT_CSV_TOOL = BASE_DIR / "cmd_tool" / "FitCSVTool.jar"
+MATCHES = BASE_DIR / "data"/ "Hardlooptijden.csv"
+SCHEDULE = BASE_DIR /  "data" / "Hardloopschema.csv"
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("secret_key")
-if not SECRET_KEY:
-    with open(os.path.join(BASE_DIR, "credentials/secret_key.txt")) as f:
-        lines = f.readlines()
-        SECRET_KEY = lines[0].strip()
-        password = lines[1].strip()
-        host = lines[2].strip()
-else: 
-    password = None
-    host = None
-
+SECRET_KEY = os.getenv("secret_key", secret_key)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("debug", False) == "True"
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
 if os.environ.get('DJANGO_DEVELOPMENT'):
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
+else: 
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -111,14 +102,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'heroku': { 
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': os.environ.get("password", password),
-        'HOST': os.environ.get("host", host),
-        'PORT': '5432',
     },
 }  
 

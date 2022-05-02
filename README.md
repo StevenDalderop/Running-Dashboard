@@ -9,7 +9,7 @@ In the main folder:
 pip install -r requirements.txt
 ```
 
-In  the app folder:
+In  the frontend folder:
 ```bash
 npm install
 ```
@@ -17,12 +17,13 @@ npm install
 ## Usage 
 On windows on the command line for a local server in development mode:
 ```bash
-python manage.py makemigrations
-python manage.py migrate
-set debug=True
-set DJANGO_DEVELOPMENT=1
+python manage.py makemigrations 
+python manage.py migrate 
+set debug=True 
+set DJANGO_DEVELOPMENT=1 
 python manage.py runserver 
 ```
+
 
 To update the front-end files:
 ```bash
