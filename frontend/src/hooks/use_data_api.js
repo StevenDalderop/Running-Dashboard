@@ -20,7 +20,7 @@ export default function useDataApi(url, getAll) {
 				setIsLoading(false)
 				})
 			.catch(err => console.log(err));
-	}, [])	
+	}, [url])	
 	
 	return [data, setData, isLoading]
 }

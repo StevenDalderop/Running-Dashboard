@@ -24,7 +24,6 @@ set DJANGO_DEVELOPMENT=1
 python manage.py runserver 
 ```
 
-
 To update the front-end files:
 ```bash
 npm run dev

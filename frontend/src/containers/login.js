@@ -21,9 +21,7 @@ function App() {
     <div>
       <NavbarSmall />
       { message }	
-      <div className="center-vertical">
-        <LoginForm />
-      </div>    
+      <LoginForm />  
     </div>
   )
 }

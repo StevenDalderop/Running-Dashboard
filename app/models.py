@@ -202,3 +202,12 @@ class Training(models.Model):
 
     def __str__(self):
         return f"{self.year} Q:{self.quarter} W:{self.week} nr:{self.training_nr} completed: {self.completed} {self.description}"
+
+
+class Article(models.Model):
+    pub_date = models.DateTimeField(auto_now_add=True)
+    headline = models.CharField(max_length=200)
+    content = models.TextField()
+
+    def __str__(self):
+        return f"{self.pub_date}: {self.headline}"

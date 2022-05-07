@@ -6,7 +6,6 @@ import LapTableRow from '../components/table_row_lap'
 import LinePlot from '../components/lineplot'
 import Map from '../components/map'
 import Layout from '../components/layout'
-import useDarkMode from '../hooks/use_dark_mode'
 import useDataApi from '../hooks/use_data_api'
 import styled from 'styled-components';
 
@@ -15,39 +14,36 @@ const baseUrl = window.location.protocol + "//" +window.location.host
 export default function Session(props) {
 	var sessionId = props.match.params.session_id
 	
-	const [dataSession, setDataSession, isLoadingDataSession] = useDataApi(`${baseUrl}/api/sessions/${sessionId}`, true)
+	const [dataSession, setDataSession, isLoadingDataSession] = useDataApi(`${baseUrl}/api/sessions/${sessionId}/`, true)
 	const [dataLaps, setDataLaps, isLoadingDataLaps] = useDataApi(`${baseUrl}/api/sessions/${sessionId}/laps`, true)
 	const [dataRecords, setDataRecords, isLoadingDataRecords] = useDataApi(`${baseUrl}/api/sessions/${sessionId}/records`, true)
-	const [theme, toggleTheme] = useDarkMode()
 		
 	var lap_data = !isLoadingDataLaps ? dataLaps.map((data, index) => LapTableRow(index, data)) : null	
 	
 	return (
-		<Layout theme={theme} toggleTheme={toggleTheme}>
-			<Wrapper>
-				<div className="grid-container">
-					<div className="map">
-						{ !isLoadingDataRecords ? 
-							<Map dataRecords={dataRecords} /> : 
-							<div className={"loader bg-" + theme}> </div>}	
-					</div>
-					<div className="sessions"> 
-						{ !isLoadingDataSession ? SessionData(dataSession) : null }
-					</div>
-					<div className="speed"> 
-						<LinePlot data={dataRecords} isLoading={isLoadingDataRecords} column="speed" id="svg_speed" theme={theme} 
-							width={400} height={300}/> 
-					</div>
-					<div className="laps">
-						< Table colnames={["#", "Time", "Distance", "Average speed"]} theme={theme} rows={lap_data} height="300px" />
-					</div>
-					<div className="heart_rate"> 
-						<LinePlot data={dataRecords} isLoading={isLoadingDataRecords} column="heart_rate" id="svg_heart_rate" 
-							theme={theme} width={400} height={300}/> 
-					</div>
+		<Wrapper>
+			<div className="grid-container">
+				<div className="map">
+					{ !isLoadingDataRecords ? 
+						<Map dataRecords={dataRecords} /> : 
+						<div className="loader"> </div>}	
 				</div>
-			</Wrapper>
-		</Layout>
+				<div className="sessions"> 
+					{ !isLoadingDataSession ? SessionData(dataSession) : null }
+				</div>
+				<div className="speed"> 
+					<LinePlot data={dataRecords} isLoading={isLoadingDataRecords} column="speed" id="svg_speed"  
+						width={400} height={300}/> 
+				</div>
+				<div className="laps">
+					< Table colnames={["#", "Time", "Distance", "Average speed"]} rows={lap_data} height="300px" />
+				</div>
+				<div className="heart_rate"> 
+					<LinePlot data={dataRecords} isLoading={isLoadingDataRecords} column="heart_rate" id="svg_heart_rate" 
+						width={400} height={300}/> 
+				</div>
+			</div>
+		</Wrapper>
 	)    
 }
 

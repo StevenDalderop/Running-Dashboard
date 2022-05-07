@@ -1,9 +1,9 @@
 from rest_framework import viewsets, permissions, generics, status
-from api.serializers import SessionSerializer, RecordSerializer, LapSerializer, MatchSerializer, TrainingSerializer
-from app.models import Session, Record, Lap, Matches, Training
+from api.serializers import SessionSerializer, RecordSerializer, LapSerializer, MatchSerializer, TrainingSerializer, ArticleSerializer
+from app.models import Session, Record, Lap, Matches, Training, Article
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.pagination import UnpaginatedTable
+from api.pagination import UnpaginatedTable, SmallPagination
 
 # Create your views here.
 class SessionViewSet(viewsets.ModelViewSet):
@@ -25,7 +25,13 @@ class LapViewSet(viewsets.ModelViewSet):
     queryset = Lap.objects.all().order_by('-end_time')
     serializer_class = LapSerializer
     permission_classes = [permissions.IsAuthenticated] 
-    
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all().order_by('-pub_date')
+    serializer_class = ArticleSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_class = SmallPagination
+
 class getSessionLaps(generics.ListAPIView):
     serializer_class = LapSerializer
     permission_classes = [permissions.IsAuthenticated]

@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 function getCookie(name) {
     var cookieValue = null;
@@ -40,24 +41,31 @@ function handleTrainingSubmitted(e, props) {
   
   
 const Training = (props) => {
-	var className = props.completed ? "training_div col-md bg-primary" : "training_div col-md bg-secondary"
-	var btnClassName = props.theme === "dark" ? "btn btn-dark" : "btn btn-light"
+	var className = props.completed ? "training_div bg-primary" : "training_div bg-secondary"
 
 	return (
-		<div className={className}>
-			<div className="training-title"> 
-				<h5> Training { props.training_nr }</h5>
-				<div>
-					<form onSubmit={(e) => handleTrainingSubmitted(e, props)}> 
-						<button onClick={() => props.handleChangeTraining(props.index)} 
-						className={btnClassName}> { props.completed ? "Remove" : "Add"}</button>
-					</form>
+		<Wrapper className="col-md">
+			<div className={className}>
+				<div className="training-title"> 
+					<h5> Training { props.training_nr }</h5>
+					<div>
+						<form onSubmit={(e) => handleTrainingSubmitted(e, props)}> 
+							<button onClick={() => props.handleChangeTraining(props.index)} 
+							className="btn btn-light"> { props.completed ? "Remove" : "Add"}</button>
+						</form>
+					</div>
 				</div>
+				<p> {props.description} </p>
 			</div>
-			<p> {props.description} </p>
-		</div>
+		</Wrapper>
 	)
 }
 export default Training;
 
-
+const Wrapper = styled.div`
+	.training_div {
+		border-radius: 10px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+`

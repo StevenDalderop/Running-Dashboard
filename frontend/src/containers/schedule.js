@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Navbar from '../components/navbar';
 import Training from '../components/training';
 import SelectionMenu from '../components/selection_menu';
-import useDarkMode from '../hooks/use_dark_mode'
 import useDataApi from '../hooks/use_data_api'
 import Layout from '../components/layout'
 
@@ -22,7 +21,6 @@ return array.sort(function(a, b) {
 
 export default function Schedule() {
 	const [trainings, setTrainings, isLoading] = useDataApi(`${baseUrl}/api/training`, true)
-	const [theme, toggleTheme] = useDarkMode()
 	const [selector, setSelector] = useState("2021 Q2")
 
 	function handleChange(e) {
@@ -47,7 +45,7 @@ export default function Schedule() {
 	function renderTraining(t, training_nr) {
 		return(
 			< Training key={t.index} week={t.week} training_nr={training_nr} completed={t.completed} index={t.index}
-			description={t.description} theme={theme} handleChangeTraining={() => handleChangeTraining(t.index)} />
+			description={t.description} handleChangeTraining={() => handleChangeTraining(t.index)} />
 		)
 	}
 	
@@ -83,13 +81,13 @@ export default function Schedule() {
 	}
 		
 	return (
-		<Layout theme={theme} toggleTheme={toggleTheme} active="Schema">
-			<div className="container"> 
-				<div className="flex_container justify_content_center">
+		<div>
+			<div className="container d-flex flex-wrap"> 
+				<div style={{"width": "250px"}}>
 					<SelectionMenu name="schedule-period" value={selector} handleChange={(e) => handleChange(e)} 
 						items={SelectionMenuItems} className="selection_menu" />
 				</div>
-				<div className="progress">
+				<div style={{"width": "100%"}} className="progress mt-3">
 					<div className="progress-bar" style={{width: bar_width + "%"}} 
 					role="progressbar" aria-valuenow={bar_width} aria-valuemin="0" 
 					aria-valuemax="100">{Math.round(bar_width) + "%"}</div>
@@ -98,7 +96,6 @@ export default function Schedule() {
 			<div className="mt-3">
 				{ renderedTrainings } 
 			</div>
-		</Layout>
+		</div>
 	)
 }
-

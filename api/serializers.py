@@ -1,4 +1,4 @@
-from app.models import Session, Record, Lap, Matches, Training
+from app.models import Session, Record, Lap, Matches, Training, Article
 from rest_framework import serializers
 
 class SessionSerializer(serializers.HyperlinkedModelSerializer):
@@ -9,7 +9,7 @@ class SessionSerializer(serializers.HyperlinkedModelSerializer):
         col_names.remove('start_position_long')
         col_names.remove('lap')
         col_names.remove('record')
-        fields = col_names
+        fields = col_names + ['url']
 
 class RecordSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -26,6 +26,11 @@ class MatchSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Matches
         fields = '__all__'
+
+class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Article
+        fields = [field.name for field in Article._meta.get_fields()]
 
 class TrainingSerializer(serializers.ModelSerializer):  
     index = serializers.IntegerField(read_only=False)

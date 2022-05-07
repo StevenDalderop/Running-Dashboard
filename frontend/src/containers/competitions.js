@@ -6,15 +6,13 @@ import SearchBar from '../components/search_bar'
 import SelectionMenu from '../components/selection_menu'
 import TableRowWedstrijd from '../components/table_row_wedstrijd'
 import Layout from '../components/layout'
-import useDarkMode from '../hooks/use_dark_mode';
 import useDataApi from '../hooks/use_data_api'
 import { SelectionMenuItems } from '../data/data'
 
 const baseUrl = window.location.protocol + "//" + window.location.host
 
 export default function competitions() {
-	const [wedstrijden, setWedstrijden, isLoading] = useDataApi(`${baseUrl}/api/matches`)
-	const [theme, toggleTheme] = useDarkMode()
+	const [wedstrijden, setWedstrijden, isLoading] = useDataApi(`${baseUrl}/api/matches/`)
 	const [inputs, setInputs] = useState({filter: "all", search: ""})
 
 	const handleChange = e => {
@@ -24,17 +22,15 @@ export default function competitions() {
 	var tableRowsWedstrijden = isLoading ? null : getTableRowsWedstrijden(wedstrijden, inputs.filter, inputs.search);
 		
 	return (
-		<Layout theme={theme} toggleTheme={toggleTheme} active="Wedstrijden">
-			<div className="container">
-				<div id="buttons-group">
-					<SelectionMenu items={SelectionMenuItems} handleChange={(e) => handleChange(e)} name="filter" value={inputs.filter} className="selection_menu" />
-					<SearchBar value={inputs.search} handleChange={(e) => handleChange(e)} className="search_bar" />
-				</div>
-				<div className="table_container">
-					<Table colnames={["Date", "Distance", "Time", "Speed", "Name"]} rows={tableRowsWedstrijden} theme={theme} height="400px" />
-				</div>
+		<div className="container">
+			<div className="row">
+				<SelectionMenu items={SelectionMenuItems} handleChange={(e) => handleChange(e)} name="filter" value={inputs.filter} className="col-sm mb-3" />
+				<SearchBar value={inputs.search} handleChange={(e) => handleChange(e)} className="col-sm mb-3" />
 			</div>
-		</Layout>
+			<div className="table_container">
+				<Table colnames={["Date", "Distance", "Time", "Speed", "Name"]} rows={tableRowsWedstrijden} height="400px" />
+			</div>
+		</div>
 	)
 }
 
@@ -83,4 +79,3 @@ function getPrs(wedstrijden, filter) {
 	}
 	return prs
 }
-

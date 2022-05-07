@@ -11,33 +11,37 @@ import Schedule from "./schedule";
 import Competitions from "./competitions";
 import Session from "./session";
 import Trainingen from "./trainingen"
-import styled from 'styled-components';
+import Blog from "./blog"
+import useDarkMode from '../hooks/use_dark_mode';
+import Layout from '../components/layout'
 
-export default class Homepage extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-	
-	render() {
-		return (
-		    <Router>
+export default function Homepage() {
+	const [theme, toggleTheme] = useDarkMode()
+
+	return (     
+		<Router>
+			<Layout theme={theme} toggleTheme={toggleTheme}>  
 				<Switch>
-				  <Route exact path="/">
-					< Index />
-				  </Route>
-				  <Route path="/schema">
-                    < Schedule />
-                  </Route>
-				  <Route path="/trainingen">
-					  <Trainingen />
-				  </Route>
-				  <Route path="/wedstrijden">
-					< Competitions />
-				  </Route>
-				  < Route path="/session/:session_id" component={Session} />
+					<Route exact path="/">
+						< Index />
+					</Route>
+					<Route path="/schema">
+						< Schedule />
+					</Route>
+					<Route path="/trainingen">
+						<Trainingen />
+					</Route>
+					<Route path="/wedstrijden">
+						< Competitions />
+					</Route>
+					<Route path="/blog">
+						<Blog />
+					</Route>
+					< Route path="/session/:session_id" component={Session} />
 				</Switch>
-			</Router>
-		)
-	}
+			</Layout>
+		</Router>
+	)
 }
+
 			

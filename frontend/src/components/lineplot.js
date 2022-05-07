@@ -4,9 +4,11 @@ import Loader from './loader'
 const LinePlot = function LinePlot(props) {
 	useEffect(() => {
 			if (props.data) {
+				d3.select("#" + props.id)
+					.selectAll("*").remove();
 				DrawPlot()
 			}
-        }, [props.isLoading]);
+        }, [props.isLoading, props.data]);
 	
 	function DrawPlot() {
 		if (props.column === "speed") {
@@ -92,7 +94,7 @@ const LinePlot = function LinePlot(props) {
 	}
 	
 	
-	var outcome = props.isLoading ? <Loader height={props.height + "px"} theme={props.theme}/>  : <svg id={props.id}></svg>
+	var outcome = props.isLoading ? <Loader height={props.height + "px"}/>  : <svg id={props.id}></svg>
 	return (
 		outcome
 	)

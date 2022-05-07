@@ -7,6 +7,7 @@ router.register(r'sessions', views.SessionViewSet)
 router.register(r'records', views.RecordViewSet)
 router.register(r'laps', views.LapViewSet)
 router.register(r'matches', views.MatchViewSet)
+router.register(r'articles', views.ArticleViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
