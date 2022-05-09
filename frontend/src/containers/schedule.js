@@ -4,19 +4,43 @@ import Navbar from '../components/navbar';
 import Training from '../components/training';
 import SelectionMenu from '../components/selection_menu';
 import useDataApi from '../hooks/use_data_api'
-import Layout from '../components/layout'
+import { sortByKey } from '../util'
 
-const baseUrl = window.location.protocol + "//" +window.location.host
+const baseUrl = window.location.protocol + "//" + window.location.host
 
 const SelectionMenuItems = [
-{"value": "2021 Q1", "name": "2021 Kwartaal 1"}, 
-{"value": "2021 Q2", "name": "2021 Kwartaal 2"}]
+	{"value": "2021 Q1", "name": "2021 Kwartaal 1"}, 
+	{"value": "2021 Q2", "name": "2021 Kwartaal 2"}
+]
 
-function sortByKey(array, key) {
-return array.sort(function(a, b) {
-    var x = a[key]; var y = b[key];
-    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-});
+function ProgressBar(props) {
+	return (
+		<div style={{"width": "100%"}} className="progress mt-3">
+			<div className="progress-bar" style={{width: props.percentage + "%"}} 
+				role="progressbar" aria-valuenow={props.percentage} aria-valuemin="0" 
+				aria-valuemax="100">
+				{Math.round(props.percentage) + "%"}
+			</div>
+		</div>
+	)
+}
+
+function TrainingWeek(props) {
+	var trainings_this_week = props.trainings.filter(x => x.week === props.week)
+	var sorted_trainings_this_week = sortByKey(trainings_this_week, "training_nr")
+
+	return (
+		<div key={props.week}>
+			<h3> Week {props.week} </h3>
+			<div className="row justify-content-center">
+				{ 
+					sorted_trainings_this_week.map(t => 
+						<Training key={t.index} week={t.week} training_nr={t.training_nr} completed={t.completed} index={t.index}
+							description={t.description} handleChangeTraining={() => props.handleChangeTraining(t.index)} />) 
+				}
+			</div>
+		</div>
+	)
 }
 
 export default function Schedule() {
@@ -40,61 +64,27 @@ export default function Schedule() {
 			}
 			return ( newState )
 		})
-	}
-	
-	function renderTraining(t, training_nr) {
-		return(
-			< Training key={t.index} week={t.week} training_nr={training_nr} completed={t.completed} index={t.index}
-			description={t.description} handleChangeTraining={() => handleChangeTraining(t.index)} />
-		)
-	}
-	
-	function renderWeekTraining(week, trainings_week) {
-		var trainings = sortByKey(trainings_week, "training_nr").map((t, training_nr) => renderTraining(t, training_nr + 1))	
-		return (
-			<div className="container" key={week}>
-				<h3> Week {week} </h3>
-				<div style={{padding: "10px"}}className="row justify-content-center">
-					{ trainings }
-				</div>
-			</div>
-		)
-	}		
-	
-	function renderTrainings(trainings_data) {
-		var result = []
-		var week_nr_max = 10
-		for (var week_nr=1; week_nr<=week_nr_max; week_nr += 1) {
-			var week_data = trainings_data.filter(x => x.week === week_nr)
-			result.push(renderWeekTraining(week_nr, week_data))
-		}
-		return result 
-	}
+	}	
 	
 	if (!isLoading) {
-		var trainings_this_period = trainings.filter((x) => x.quarter.toString() === selector.substring(6))
-		var bar_width = trainings_this_period.filter((x) => x.completed).length / trainings_this_period.length * 100
-		var renderedTrainings = renderTrainings(trainings_this_period)
+		var filtered_trainings = trainings.filter((x) => x.quarter.toString() === selector.substring(6))
+		var weeks = Array.from({length: 10}, (_, i) => i + 1)
+		training_schedule = weeks.map(week => <TrainingWeek trainings={filtered_trainings} week={week} handleChangeTraining={(index) => handleChangeTraining(index)} />)
+		var bar_width = filtered_trainings.filter((x) => x.completed).length / filtered_trainings.length * 100
 	} else {
+		var training_schedule = null
 		var bar_width = 0
-		var renderedTrainings = null
 	}
-		
+
 	return (
-		<div>
-			<div className="container d-flex flex-wrap"> 
-				<div style={{"width": "250px"}}>
-					<SelectionMenu name="schedule-period" value={selector} handleChange={(e) => handleChange(e)} 
-						items={SelectionMenuItems} className="selection_menu" />
-				</div>
-				<div style={{"width": "100%"}} className="progress mt-3">
-					<div className="progress-bar" style={{width: bar_width + "%"}} 
-					role="progressbar" aria-valuenow={bar_width} aria-valuemin="0" 
-					aria-valuemax="100">{Math.round(bar_width) + "%"}</div>
-				</div>
+		<div className="container" >
+			<div className="d-flex flex-wrap"> 
+				<SelectionMenu name="schedule-period" value={selector} handleChange={(e) => handleChange(e)} 
+					items={SelectionMenuItems} className="selection_menu" />
+				<ProgressBar percentage={bar_width} />
 			</div>
 			<div className="mt-3">
-				{ renderedTrainings } 
+				{ training_schedule } 
 			</div>
 		</div>
 	)

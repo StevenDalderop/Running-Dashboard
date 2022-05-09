@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import Table from '../components/table';
 import { roundDecimals, getFormattedDateTime, getMinutePerKm, getFormattedTime, getFormattedDistance } from '../util'
 import TableRowTraining from '../components/table_row_training'
-import Layout from '../components/layout'
 
 const baseUrl = window.location.protocol + "//" + window.location.host
 
@@ -36,7 +35,7 @@ export default function Trainingen() {
 				}
 			}
 		}
-    })
+    }, [])
 	
 	var isLoading = sessionData === null
 	var rows = !isLoading ? sessionData.map((x) => <TableRowTraining data={x} key={x.index} />) : null

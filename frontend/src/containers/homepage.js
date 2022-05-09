@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
 } from "react-router-dom";
 import Index from "./index";
 import Schedule from "./schedule";
@@ -12,15 +11,12 @@ import Competitions from "./competitions";
 import Session from "./session";
 import Trainingen from "./trainingen"
 import Blog from "./blog"
-import useDarkMode from '../hooks/use_dark_mode';
 import Layout from '../components/layout'
 
 export default function Homepage() {
-	const [theme, toggleTheme] = useDarkMode()
-
 	return (     
 		<Router>
-			<Layout theme={theme} toggleTheme={toggleTheme}>  
+			<Layout>  
 				<Switch>
 					<Route exact path="/">
 						< Index />

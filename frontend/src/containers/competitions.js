@@ -5,13 +5,21 @@ import Table from '../components/table';
 import SearchBar from '../components/search_bar'
 import SelectionMenu from '../components/selection_menu'
 import TableRowWedstrijd from '../components/table_row_wedstrijd'
-import Layout from '../components/layout'
 import useDataApi from '../hooks/use_data_api'
-import { SelectionMenuItems } from '../data/data'
 
 const baseUrl = window.location.protocol + "//" + window.location.host
 
-export default function competitions() {
+const SelectionMenuItems = [
+	{"value": "all", "name": "All competitions"}, 
+	{"value": "prs", "name": "Personal records"}, 
+	{"value": "best", "name": "Current personal records"}, 
+	{"value": "5 km", "name": "5 KM"}, 
+	{"value": "10 km", "name": "10 KM"}, 
+	{"value": "21.1 km", "name": "21.1 KM"}
+]
+
+
+export default function Competitions() {
 	const [wedstrijden, setWedstrijden, isLoading] = useDataApi(`${baseUrl}/api/matches/`)
 	const [inputs, setInputs] = useState({filter: "all", search: ""})
 
@@ -33,6 +41,7 @@ export default function competitions() {
 		</div>
 	)
 }
+
 
 function getTableRowsWedstrijden(wedstrijden_, filter, search) {
 	var wedstrijden = filterWedstrijden(wedstrijden_, filter)
