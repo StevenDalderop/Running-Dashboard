@@ -1,22 +1,26 @@
-from cmd_tool.calendar import authenticate_google_calendar_api, RunningCalendar
-from cmd_tool.utils import copy_files_from_dir, extract_files_from_dir, csv_files_to_db
-from running import settings
+from cmd_tool.utils import import_files_from_usb, extract_new_files, update_database, get_info
+import sys
 
 
 def main():
-    count = copy_files_from_dir(settings.USB_DIR, settings.FIT_DIR) 
-    print(f"Copied {count} files")
+    if len(sys.argv) != 2:
+        print("Expected 2 arguments. Correct usage: python main.py [command] \nPossible commands are: import / extract / update / info")
+        return 
 
-    count, extracted = extract_files_from_dir(settings.FIT_DIR, settings.CSV_DIR)
-    print(f"Extracted {count} files")
+    command = sys.argv[1]
 
-    count = csv_files_to_db(extracted)
-    print(f"Added {count} files to database")
-       
-    service = authenticate_google_calendar_api()
-    calendar = RunningCalendar(service)
-    count = calendar.add_files_to_calendar(extracted)
-    print(f"Added {count} files to calendar")
+    if command == "import":
+        import_files_from_usb()
+    elif command == "extract":
+        extract_new_files()
+    elif command == "update":
+        update_database()
+    elif command == "info":
+        get_info()
+    else: 
+        print("Invalid command")
+
+    return 
 
 
 if __name__ == "__main__":

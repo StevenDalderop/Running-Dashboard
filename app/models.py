@@ -9,6 +9,8 @@ from django.db import models
 import os 
 from django.conf import settings
 from cmd_tool.parse import parse_csv
+import pandas as pd
+from datetime import date
 
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -187,6 +189,22 @@ class Matches(models.Model):
     def __str__(self):
         return f"Match {self.index}"
 
+    def update_db(csv):
+        df_matches = pd.read_csv(csv, sep=";")
+        count_created = 0
+        for index, row in df_matches.iterrows():
+            day, month, year = row["Date"].split("-")
+            match, created = Matches.objects.get_or_create(
+                index=index,
+                date=date(int(year), int(month), int(day)),
+                distance=row["Distance"],
+                time=row["Time"],
+                name=row["Name"],
+                isRecord=row["Record"]
+            )
+            count_created += int(created) 
+        return count_created
+
 
 class Training(models.Model):
     index = models.IntegerField(primary_key=True)
@@ -202,6 +220,23 @@ class Training(models.Model):
 
     def __str__(self):
         return f"{self.year} Q:{self.quarter} W:{self.week} nr:{self.training_nr} completed: {self.completed} {self.description}"
+
+    def update_db(csv):
+        df = pd.read_csv(csv, sep=";")
+        count_created = 0
+        for index, row in df.iterrows():
+            defaults = {
+                "year": row["year"], 
+                "quarter": row["quarter"], 
+                "week": row["week"], 
+                "training_nr": row["training_nr"], 
+                "description": row["description"]
+            }
+            training, created = Training.objects.update_or_create(
+                index = row["id"], defaults = defaults
+            )
+            count_created += int(created)
+        return count_created
 
 
 class Article(models.Model):

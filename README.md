@@ -15,6 +15,14 @@ npm install
 ```
 
 ## Usage 
+Importing files from usb:
+```bash
+python main.py import
+python main.py extract
+python main.py update
+python main.py info
+```
+
 On windows on the command line for a local server in development mode:
 ```bash
 python manage.py makemigrations 

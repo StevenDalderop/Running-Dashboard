@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.conf import settings
 
-from app.models import Session, Lap, Record
+from app.models import Session, Lap, Record, Training, Matches
 import os
 from cmd_tool.utils import copy_file, fit_to_csv, csv_dir_to_db
 from cmd_tool.calendar import RunningCalendar, RunningEvent, authenticate_google_calendar_api
@@ -64,6 +64,17 @@ class DatabaseTestCase(TestCase):
         self.assertEqual(Session.objects.filter(name = self.csv_file)[0].total_distance, 2.18859)
         self.assertEqual(Lap.objects.count(), 1)
         self.assertEqual(Record.objects.count(), 734)
+
+    def test_update_db_training(self):
+        self.assertEqual(Training.objects.count(), 0)
+        Training.update_db(settings.TEST_DIR / 'training.csv')
+        self.assertEqual(Training.objects.count(), 30)
+        self.assertEqual(Training.objects.first().description, "5 x 1000 m")
+
+    def test_update_db_matches(self):
+        self.assertEqual(Matches.objects.count(), 0)
+        Matches.update_db(settings.TEST_DIR / 'matches.csv')
+        self.assertEqual(Matches.objects.count(), 10)
 
 
 class FitTestCase(TestCase):

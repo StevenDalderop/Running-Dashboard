@@ -9,7 +9,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'running.settings')
 django.setup()
 import warnings
 warnings.filterwarnings("ignore", category=RuntimeWarning)
-from app.models import Session, Lap, Record
+from app.models import Session, Lap, Record, Matches, Training
+from cmd_tool.calendar import authenticate_google_calendar_api, RunningCalendar
 
 
 def copy_file(source, destination):
@@ -94,3 +95,54 @@ def csv_files_to_db(csvs):
             count += 1
 
     return count    
+
+
+def update_matches_db(csv):
+    count = Matches.update_db(csv)
+    return count
+
+
+def update_training_db(csv):
+    count = Training.update_db(csv)
+    return count
+
+
+def get_info():
+    print(f"{Session.objects.all().count()} sessions in database")
+    print(f"{Lap.objects.all().count()} laps in database")
+    print(f"{Record.objects.all().count()} records in database")
+    print(f"{Matches.objects.all().count()} races in database")
+    print(f"{Training.objects.all().count()} scheduled trainings in database")
+    service = authenticate_google_calendar_api()
+    calendar = RunningCalendar(service)
+    event_count = len(calendar.get_running_events())
+    print(f"{event_count} events in calendar")
+
+
+def import_files_from_usb():
+    count = copy_files_from_dir(settings.USB_DIR, settings.FIT_DIR) 
+    print(f"Copied {count} files")
+    return 
+
+
+def extract_new_files():
+    count, extracted = extract_files_from_dir(settings.FIT_DIR, settings.CSV_DIR)
+    print(f"Extracted {count} files")
+
+    count = csv_files_to_db(extracted)
+    print(f"Added {count} files to database")
+       
+    service = authenticate_google_calendar_api()
+    calendar = RunningCalendar(service)
+    count = calendar.add_files_to_calendar(extracted)
+    print(f"Added {count} files to calendar")
+    return
+
+
+def update_database():
+    count = update_matches_db(settings.MATCHES)
+    print(f"Created {count} matches in database")
+
+    count = update_training_db(settings.SCHEDULE)
+    print(f"Created {count} scheduled trainings in database")
+    return
