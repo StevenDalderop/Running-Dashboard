@@ -42,6 +42,9 @@ const Navbar = (props) => {
   return (
 	<Wrapper>
 		<nav id="navbar" className="navbar navbar-expand-lg navbar-light bg-light mb-3">
+			<div>
+				test
+			</div>
 			<div className="container-fluid">
 				<a className="navbar-brand" href="#">Running</a>
 				<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,8 +56,6 @@ const Navbar = (props) => {
 						<Link className="nav-link" to="/"> Home </Link>
 						<DropDownMenu title="Trainingen" links={dropdown_items} />
 						<Link className="nav-link" to="/wedstrijden">Wedstrijden</Link> 
-						<Link className="nav-link" to="/blog">Blog</Link> 
-						<Link className="nav-link" to="/schema">Schema</Link>
 						<li className="nav-item" >
 							<a className="nav-link" href="/logout">Logout</a>
 						</li>

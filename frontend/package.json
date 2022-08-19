@@ -24,7 +24,6 @@
     "bootstrap": "^5.0.0-beta3",
     "popper.js": "^1.16.1",
     "react-router-dom": "^5.2.0",
-    "remarkable": "^2.0.1",
     "styled-components": "^5.2.3"
   }
 }
