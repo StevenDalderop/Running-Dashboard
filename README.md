@@ -28,7 +28,6 @@ On windows on the command line for a local server in development mode:
 python manage.py makemigrations 
 python manage.py migrate 
 set debug=True 
-set DJANGO_DEVELOPMENT=1 
 python manage.py runserver 
 ```
 

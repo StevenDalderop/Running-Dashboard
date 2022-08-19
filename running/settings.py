@@ -38,7 +38,7 @@ DEBUG = os.getenv("debug", False) == "True"
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-if os.environ.get('DJANGO_DEVELOPMENT'):
+if DEBUG:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
