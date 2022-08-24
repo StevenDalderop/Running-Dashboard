@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-export default function Map(props) {
+export default function TrainingMap(props) {
 	const [map, setMap] = useState() 
 	const [polyline, setPolyline] = useState()
 	const mapRef = useRef(null);

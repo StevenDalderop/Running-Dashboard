@@ -3,8 +3,8 @@ var webpack = require('webpack');
 
 module.exports = {
   entry:  {
-	  start: path.join(__dirname, 'src/index'),
-	  login: path.join(__dirname, 'src/containers/login'), 
+	  start: path.join(__dirname, 'src/runningDashboard'),
+	  login: path.join(__dirname, 'src/pages/loginPage'), 
   },
   output: {
     path: path.join(path.dirname(__dirname), '/app/static/app'),

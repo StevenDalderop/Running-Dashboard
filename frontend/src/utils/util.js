@@ -1,23 +1,3 @@
-Number.prototype.padLeft = function(base,chr) {
-    var  len = (String(base || 10).length - String(this).length)+1;
-    return len > 0 ? new Array(len).join(chr || '0')+this : this;
-}
-
-export function getFormattedDate(timestamp) {
-	var date = new Date(Date.parse(timestamp))
-	
-	var year = date.getFullYear();
-  
-	var month = (1 + date.getMonth()).toString();
-	month = month.length > 1 ? month : '0' + month;
-  
-	var day = date.getDate().toString();
-	day = day.length > 1 ? day : '0' + day;
-	
-	
-    return day + '/' + month + '/' + year;
-}
-
 export function getWeekday(timestamp) {
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var date = new Date(Date.parse(timestamp))
@@ -25,7 +5,7 @@ export function getWeekday(timestamp) {
 	return weekday
 }
 
-export function reverseDate(date_string) {
+export function formatDate(date_string) {
 	var year = date_string.substring(0, 4)
 	var month = date_string.substring(5, 7)
 	var day = date_string.substring(8, 10)
@@ -80,28 +60,3 @@ export function getFormattedSpeed(km, formatted_time) {
 	var seconds_per_km = total_seconds / km
 	return Math.floor(seconds_per_km  / 60) + ":" + Math.round(seconds_per_km % 60).padLeft()
 }	
-
-export const makeCancelable = (promise) => {
-	let hasCanceled_ = false;
-  
-	const wrappedPromise = new Promise((resolve, reject) => {
-	  promise.then(
-		val => hasCanceled_ ? reject({isCanceled: true}) : resolve(val),
-		error => hasCanceled_ ? reject({isCanceled: true}) : reject(error)
-	  );
-	});
-  
-	return {
-	  promise: wrappedPromise,
-	  cancel() {
-		hasCanceled_ = true;
-	  },
-	};
-  };
-
-export function sortByKey(array, key) {
-	return array.sort(function(a, b) {
-		var x = a[key]; var y = b[key];
-		return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-	})
-}

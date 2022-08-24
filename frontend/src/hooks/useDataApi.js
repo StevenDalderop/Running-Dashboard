@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-export default function useDataApi(url, getAll) {
+export default function UseDataApi(url, getAll) {
 	const [data, setData] = useState(null)
 	const [isLoading, setIsLoading] = useState(true)
 	

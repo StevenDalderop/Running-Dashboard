@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import CSRFToken from '../components/csrftoken';
+import CSRFToken from '../components/csrfToken';
 import styled from 'styled-components';
 
 const LoginForm = (props) => {
@@ -39,6 +39,8 @@ const Wrapper = styled.div`
 	.title-container {
 		height: 100%;
 		align-items: center;
+		color: white;
+		text-align: center;
 	}
 
 	.center {
@@ -56,7 +58,7 @@ const Wrapper = styled.div`
 	}
 `
 
-function App() {
+function LoginPage() {
     useEffect(() => {
 	    document.body.style.backgroundColor = "rgb(50,50,50)";
 	}, [])
@@ -70,7 +72,7 @@ function App() {
 						<div class="row">
 							<div className="col-md-6 mb-3">
 								<div className="row title-container">
-									<h1 style={{color: "white", "text-align": "center"}}> Running Dashboard </h1>
+									<h1> Running Dashboard </h1>
 								</div>
 							</div>
 							<div className="col-md-6">
@@ -86,4 +88,4 @@ function App() {
   	)
 }
 
-ReactDOM.render(<App />, document.getElementById('react_container'));
+ReactDOM.render(<LoginPage />, document.getElementById('react_container'));

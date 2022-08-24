@@ -1,5 +1,6 @@
 import React from 'react'
-import { roundDecimals, getFormattedTime, getMinutePerKm } from '../util'
+import { roundDecimals, getFormattedTime, getMinutePerKm } from '../../utils/util'
+import Table from './table'
 
 const LapTableRow = function LapTableRow(index, data) {
 	return (
@@ -12,4 +13,10 @@ const LapTableRow = function LapTableRow(index, data) {
 	)
 }
 
-export default LapTableRow
+export default function TrainingLapTable(props) {
+	let trainingLapRows = props.trainingLaps.map((data, index) => LapTableRow(index, data))
+
+	return (
+		<Table colnames={["#", "Time", "Distance", "Average speed"]} rows={trainingLapRows} height="300px" />
+	)
+}
