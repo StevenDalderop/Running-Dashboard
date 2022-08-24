@@ -1,3 +1,8 @@
+Number.prototype.padLeft = function(base,chr) {
+    var  len = (String(base || 10).length - String(this).length)+1;
+    return len > 0 ? new Array(len).join(chr || '0')+this : this;
+}
+
 export function getWeekday(timestamp) {
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var date = new Date(Date.parse(timestamp))
