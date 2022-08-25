@@ -25,12 +25,14 @@ Set the secret key in the settings.py file.
 Authorize requests to Google Calendar using: https://developers.google.com/calendar/api/guides/auth?hl=en_US
 
 ## Usage 
-Importing files from usb:
+To compile the front-end files in watch-mode:
 ```bash
-python main.py import
-python main.py extract
-python main.py update
-python main.py info
+npm run dev
+```
+
+To create an user account: 
+```bash
+python manage.py createsuperuser
 ```
 
 On windows on the command line for a local server in development mode:
@@ -39,9 +41,12 @@ set debug=True
 python manage.py runserver 
 ```
 
-To update the front-end files:
+Importing files from usb:
 ```bash
-npm run dev
+python main.py import
+python main.py extract
+python main.py update
+python main.py info
 ```
 
 Manage the database at : http://127.0.0.1:8000/admin/
