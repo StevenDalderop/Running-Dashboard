@@ -6,7 +6,6 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-import os 
 from django.conf import settings
 from cmd_tool.parse import parse_csv
 import pandas as pd
@@ -204,45 +203,3 @@ class Matches(models.Model):
             )
             count_created += int(created) 
         return count_created
-
-
-class Training(models.Model):
-    index = models.IntegerField(primary_key=True)
-    year = models.IntegerField(blank=True, null=True)
-    quarter = models.IntegerField(blank=True, null=True)
-    week = models.IntegerField(blank=True, null=True)
-    training_nr = models.IntegerField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    completed = models.BooleanField(default=False)
-
-    class Meta: 
-        db_table = 'training' 
-
-    def __str__(self):
-        return f"{self.year} Q:{self.quarter} W:{self.week} nr:{self.training_nr} completed: {self.completed} {self.description}"
-
-    def update_db(csv):
-        df = pd.read_csv(csv, sep=";")
-        count_created = 0
-        for index, row in df.iterrows():
-            defaults = {
-                "year": row["year"], 
-                "quarter": row["quarter"], 
-                "week": row["week"], 
-                "training_nr": row["training_nr"], 
-                "description": row["description"]
-            }
-            training, created = Training.objects.update_or_create(
-                index = row["id"], defaults = defaults
-            )
-            count_created += int(created)
-        return count_created
-
-
-class Article(models.Model):
-    pub_date = models.DateTimeField(auto_now_add=True)
-    headline = models.CharField(max_length=200)
-    content = models.TextField()
-
-    def __str__(self):
-        return f"{self.pub_date}: {self.headline}"

@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'running.settings')
 django.setup()
 import warnings
 warnings.filterwarnings("ignore", category=RuntimeWarning)
-from app.models import Session, Lap, Record, Matches, Training
+from app.models import Session, Lap, Record, Matches
 from cmd_tool.calendar import authenticate_google_calendar_api, RunningCalendar
 
 
@@ -102,17 +102,11 @@ def update_matches_db(csv):
     return count
 
 
-def update_training_db(csv):
-    count = Training.update_db(csv)
-    return count
-
-
 def get_info():
     print(f"{Session.objects.all().count()} sessions in database")
     print(f"{Lap.objects.all().count()} laps in database")
     print(f"{Record.objects.all().count()} records in database")
     print(f"{Matches.objects.all().count()} races in database")
-    print(f"{Training.objects.all().count()} scheduled trainings in database")
     service = authenticate_google_calendar_api()
     calendar = RunningCalendar(service)
     event_count = len(calendar.get_running_events())
@@ -142,7 +136,4 @@ def extract_new_files():
 def update_database():
     count = update_matches_db(settings.MATCHES)
     print(f"Created {count} matches in database")
-
-    count = update_training_db(settings.SCHEDULE)
-    print(f"Created {count} scheduled trainings in database")
     return
