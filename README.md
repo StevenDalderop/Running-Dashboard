@@ -43,3 +43,5 @@ To update the front-end files:
 ```bash
 npm run dev
 ```
+
+Manage the database at : http://127.0.0.1:8000/admin/
