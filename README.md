@@ -1,6 +1,6 @@
 # Running dashboard
 
-Running dashboard is a website that shows the data of my Garmin watch on a website. It uses Django, Dango-Rest-Framework for the back-end and React for the front-end. 
+Running dashboard is a website that shows the data of a Garmin 35 watch on a website. It uses Django, Dango-Rest-Framework for the back-end and React for the front-end. 
 
 ## Installation
 
@@ -14,6 +14,16 @@ In  the frontend folder:
 npm install
 ```
 
+To migrate the database:
+```bash
+python manage.py makemigrations 
+python manage.py migrate 
+```
+
+Set the secret key in the settings.py file. 
+
+Authorize requests to Google Calendar using: https://developers.google.com/calendar/api/guides/auth?hl=en_US
+
 ## Usage 
 Importing files from usb:
 ```bash
@@ -25,8 +35,6 @@ python main.py info
 
 On windows on the command line for a local server in development mode:
 ```bash
-python manage.py makemigrations 
-python manage.py migrate 
 set debug=True 
 python manage.py runserver 
 ```
