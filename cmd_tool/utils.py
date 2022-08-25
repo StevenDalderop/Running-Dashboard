@@ -113,7 +113,7 @@ def get_info():
     print(f"{event_count} events in calendar")
 
 
-def import_files_from_usb():
+def copy_files_from_usb():
     count = copy_files_from_dir(settings.USB_DIR, settings.FIT_DIR) 
     print(f"Copied {count} files")
     return 
@@ -133,7 +133,7 @@ def extract_new_files():
     return
 
 
-def update_database():
+def add_competitions_to_db():
     count = update_matches_db(settings.MATCHES)
     print(f"Created {count} matches in database")
     return
